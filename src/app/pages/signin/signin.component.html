@@ -1,0 +1,40 @@
+<div class="flex justify-center items-center h-screen">
+  <div class="w-full max-w-md">
+    <h1 class="text-2xl font-semibold mb-6 text-center">Login</h1>
+
+    <mat-card class="w-100 p-6">
+      <form class="w-100" [formGroup]="signinForm" (ngSubmit)="onSignin()">
+        <mat-form-field style="min-width: 100% !important">
+          <mat-label>Email</mat-label>
+          <input
+            type="email"
+            formControlName="email"
+            matInput
+            placeholder="Ex. pat@example.com"
+          />
+          <mat-error *ngIf=""> Please enter a valid email address </mat-error>
+          <mat-error *ngIf=""> Email is <strong>required</strong> </mat-error>
+        </mat-form-field>
+        <mat-form-field style="min-width: 100% !important">
+          <mat-label>Password</mat-label>
+          <input
+            type="password"
+            formControlName="password"
+            matInput
+            placeholder="Ex. pat@example.com"
+          />
+          <mat-error *ngIf=""> Please enter a valid email address </mat-error>
+          <mat-error *ngIf=""> Email is <strong>required</strong> </mat-error>
+        </mat-form-field>
+        <div class="flex items-center justify-between">
+          <button
+            type="submit"
+            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline-blue active:bg-blue-700"
+          >
+            Login
+          </button>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+</div>

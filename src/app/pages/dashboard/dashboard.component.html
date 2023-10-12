@@ -1,0 +1,173 @@
+<mat-toolbar color="primary" class="sticky">
+  <button
+    mat-icon-button
+    class="mx-3"
+    aria-label="Example icon-button with menu icon"
+    (click)="sidenav.toggle()"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>Book Store</span>
+  <span class="example-spacer"></span>
+  <button
+    class="example-icon favorite-icon bg-blue-50 text-black py-2 px-4"
+    aria-label="Example icon-button with heart icon"
+    (click)="logout()"
+  >
+    Logout
+  </button>
+</mat-toolbar>
+
+<mat-sidenav-container class="example-container">
+  <mat-sidenav
+    #sidenav
+    mode="side"
+    [(opened)]="opened"
+    (opened)="events.push('open!')"
+    (closed)="events.push('close!')"
+  >
+    <ul class="list-none">
+      <li>
+        <button
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded my-2"
+          (click)="togglebooklist()"
+        >
+          Book List
+        </button>
+      </li>
+      <li>
+        <button
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded my-2"
+          (click)="toggleModal()"
+        >
+          Add book
+        </button>
+      </li>
+    </ul>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div
+      class="booklist flex justify-center align-middle flex-wrap"
+      *ngIf="booklist"
+    >
+      <mat-spinner *ngIf="allboklist.length < 1"></mat-spinner>
+
+      <mat-card
+        *ngFor="let data of allboklist"
+        style="flex: 0 0 30%"
+        class="m-2"
+      >
+        <mat-card-header class="font-bold">{{ data.title }}</mat-card-header>
+        <mat-card-content appHighlight
+          >The Author Name is : {{ data.author }}</mat-card-content
+        >
+        <mat-card-actions>
+          <button
+            class="text-white font-bold bg-blue-800 px-4 py-2 m-2"
+            (click)="updateBook(data)"
+          >
+            Update
+          </button>
+          <button
+            class="text-white font-bold bg-red-600 px-4 py-2 m-2"
+            (click)="deleteBook(data)"
+          >
+            Delete
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <div
+      class="fixed z-10 overflow-y-auto top-0 w-full left-0 hidden"
+      id="modal"
+    >
+      <div
+        class="flex items-center justify-center min-height-100vh pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+      >
+        <div class="fixed inset-0 transition-opacity">
+          <div class="absolute inset-0 bg-gray-900 opacity-75"></div>
+        </div>
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen"
+          >&#8203;</span
+        >
+        <div
+          class="inline-block align-center bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-headline"
+        >
+          <mat-card class="w-100 p-6">
+            <div class="text-right">
+              <button
+                class="bg-red-500 m-3 p-3 text-white"
+                (click)="toggleModal()"
+              >
+                X
+              </button>
+            </div>
+            <form
+              class="w-100"
+              [formGroup]="bookForm"
+              (ngSubmit)="onAddUpdateBooks()"
+            >
+              <mat-form-field style="min-width: 100% !important">
+                <mat-label>Book Title</mat-label>
+                <input
+                  type="title"
+                  formControlName="title"
+                  matInput
+                  placeholder="Book Title"
+                />
+                <mat-error *ngIf="">
+                  Please enter a valid email address
+                </mat-error>
+                <mat-error *ngIf="">
+                  Email is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field style="min-width: 100% !important">
+                <mat-label>Author</mat-label>
+                <input
+                  type="text"
+                  formControlName="author"
+                  matInput
+                  placeholder="Book Author"
+                />
+                <mat-error *ngIf="">
+                  Please enter a valid email address
+                </mat-error>
+                <mat-error *ngIf="">
+                  Email is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+              <div class="flex items-center justify-between">
+                <button
+                  *ngIf="this.f['id'].value"
+                  type="submit"
+                  class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline-blue active:bg-blue-700"
+                >
+                  Update
+                </button>
+                <button
+                  *ngIf="!this.f['id'].value"
+                  type="submit"
+                  class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline-blue active:bg-blue-700"
+                >
+                  Add
+                </button>
+                <button
+                  (click)="refreshform()"
+                  type="button"
+                  class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline-blue active:bg-yellow-700"
+                >
+                  Clear
+                </button>
+              </div>
+            </form>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
